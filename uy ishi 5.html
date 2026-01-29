@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'quvchilar Reytingi | Maktab Baholash Tizimi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        :root {
+            --primary: #5E35B1;
+            --primary-light: #7E57C2;
+            --secondary: #00ACC1;
+            --success: #43A047;
+            --warning: #FFB300;
+            --danger: #E53935;
+            --light: #F5F7FA;
+            --dark: #1A237E;
+            --gray: #607D8B;
+            --light-gray: #ECEFF1;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --gradient-primary: linear-gradient(135deg, var(--primary), #4527A0);
+            --gradient-success: linear-gradient(135deg, var(--success), #2E7D32);
+            --gradient-warning: linear-gradient(135deg, var(--warning), #F57C00);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px 0;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 172, 193, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #0097A7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 172, 193, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .stat-card:nth-child(1)::before { background: var(--primary); }
+        .stat-card:nth-child(2)::before { background: var(--success); }
+        .stat-card:nth-child(3)::before { background: var(--warning); }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .stat-icon-1 {
+            background: var(--gradient-primary);
+        }
+
+        .stat-icon-2 {
+            background: var(--gradient-success);
+        }
+
+        .stat-icon-3 {
+            background: var(--gradient-warning);
+        }
+
+        .stat-content h3 {
+            font-size: 2.4rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .stat-content p {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ranking-table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .ranking-table-container:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .table-header {
+            background: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .table-header h2 {
+            font-size: 1.6rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+        }
+
+        select {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid var(--light-gray);
+            background-color: white;
+            font-weight: 500;
+            color: var(--dark);
+            transition: var(--transition);
+            cursor: pointer;
+            min-width: 160px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead {
+            background-color: #F9FAFC;
+        }
+
+        th {
+            padding: 20px 18px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--light-gray);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+
+        tr {
+            transition: var(--transition);
+        }
+
+        tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        tr:hover td {
+            transform: translateX(5px);
+        }
+
+        .rank {
+            font-weight: 700;
+            font-size: 1.3rem;
+            width: 60px;
+            text-align: center;
+            font-feature-settings: "tnum";
+        }
+
+        .rank-1 {
+            color: #FFD700;
+            text-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
+        }
+
+        .rank-2 {
+            color: #C0C0C0;
+            text-shadow: 0 2px 4px rgba(192, 192, 192, 0.2);
+        }
+
+        .rank-3 {
+            color: #CD7F32;
+            text-shadow: 0 2px 4px rgba(205, 127, 50, 0.2);
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(94, 53, 177, 0.2);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-grow: 1;
+            max-width: 200px;
+        }
+
+        .progress {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        .progress-high {
+            background: linear-gradient(90deg, #43A047, #66BB6A);
+        }
+
+        .progress-medium {
+            background: linear-gradient(90deg, #FFB300, #FFCA28);
+        }
+
+        .progress-low {
+            background: linear-gradient(90deg, #E53935, #EF5350);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            color: var(--dark);
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-student {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 18px;
+            background-color: #f8f9ff;
+            border-radius: 12px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .top-student:hover {
+            border-color: var(--primary-light);
+            background-color: white;
+            transform: translateX(5px);
+        }
+
+        .top-student:last-child {
+            margin-bottom: 0;
+        }
+
+        .top-student-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-list {
+            list-style-type: none;
+        }
+
+        .subject-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--light-gray);
+            transition: var(--transition);
+        }
+
+        .subject-list li:hover {
+            transform: translateX(5px);
+            border-bottom-color: var(--primary-light);
+        }
+
+        .subject-list li:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .subject-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .subject-rating {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 25px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--light-gray);
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 2px solid var(--light-gray);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.1);
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .badge-warning {
+            background-color: #FFF8E1;
+            color: #F57C00;
+        }
+
+        .badge-danger {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+
+        .score-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .score-up {
+            color: var(--success);
+        }
+
+        .score-down {
+            color: var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .filters {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            select {
+                width: 100%;
+            }
+            
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div>
+                        <h1>Maktab Reyting Tizimi</h1>
+                        <p>O'quvchilarni baholash va reytingini kuzatish</p>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-secondary" id="filterBtn">
+                        <i class="fas fa-sliders-h"></i> Filtrlash
+                    </button>
+                    <button class="btn btn-primary" id="addStudentBtn">
+                        <i class="fas fa-user-plus"></i> O'quvchi qo'shish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-1">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="totalStudents">24</h3>
+                    <p>Jami O'quvchilar</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-2">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="avgScore">84.5</h3>
+                    <p>O'rtacha Baho</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-3">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="topScore">96.7</h3>
+                    <p>Eng Yuqori Baho</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="ranking-table-container">
+                <div class="table-header">
+                    <h2><i class="fas fa-ranking-star"></i> O'quvchilar Reytingi</h2>
+                    <div class="filters">
+                        <select id="classFilter">
+                            <option value="all">Barcha sinflar</option>
+                            <option value="9">9-sinf</option>
+                            <option value="10">10-sinf</option>
+                            <option value="11">11-sinf</option>
+                        </select>
+                        <select id="subjectFilter">
+                            <option value="all">Barcha fanlar</option>
+                            <option value="matematika">Matematika</option>
+                            <option value="fizika">Fizika</option>
+                            <option value="kimyo">Kimyo</option>
+                            <option value="ona_tili">Ona tili</option>
+                            <option value="tarix">Tarix</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="rankingTable">
+                        <thead>
+                            <tr>
+                                <th>O'rin</th>
+                                <th>O'quvchi</th>
+                                <th>Sinf</th>
+                                <th>O'rtacha baho</th>
+                                <th>O'sish</th>
+                                <th>Holati</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <h3><i class="fas fa-crown"></i> Eng yaxshi 3 talaba</h3>
+                    <div id="topStudentsList">
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-book-open"></i> Fanlar bo'yicha reyting</h3>
+                    <ul class="subject-list" id="subjectRanking">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="addStudentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Yangi o'quvchi qo'shish</h2>
+                <button class="close-modal" id="closeModalBtn">&times;</button>
+            </div>
+            <form id="addStudentForm">
+                <div class="form-group">
+                    <label for="studentName">O'quvchi ismi va familiyasi</label>
+                    <input type="text" id="studentName" placeholder="Masalan: Ali Aliyev" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentClass">Sinfi</label>
+                    <select id="studentClass" required>
+                        <option value="">Sinfni tanlang</option>
+                        <option value="9">9-sinf</option>
+                        <option value="10">10-sinf</option>
+                        <option value="11">11-sinf</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="studentAvgScore">O'rtacha baho</label>
+                    <input type="number" id="studentAvgScore" min="0" max="100" step="0.1" placeholder="Masalan: 85.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentProgress">O'sish foizi (oldingi davrga nisbatan)</label>
+                    <input type="number" id="studentProgress" min="-100" max="100" step="0.1" placeholder="Masalan: 5.2" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px;">
+                        <i class="fas fa-save"></i> Saqlash
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="container">
+        <p>&copy; 2023 Maktab Reyting Baholash Tizimi. Barcha huquqlar himoyalangan.</p>
+        <p style="margin-top: 8px; opacity: 0.8;">Veb ilova 5-sonli loyiha sifatida ishlab chiqilgan</p>
+    </footer>
+
+    <script>
+        let students = [
+            {id: 1, name: "Azizov Shohruh", class: "11", avgScore: 96.7, progress: 2.5, subjects: {matematika: 98, fizika: 95, kimyo: 97, ona_tili: 96, tarix: 97}},
+            {id: 2, name: "Nurmatova Dilnoza", class: "10", avgScore: 94.2, progress: 4.1, subjects: {matematika: 95, fizika: 92, kimyo: 96, ona_tili: 94, tarix: 94}},
+            {id: 3, name: "Karimov Jasur", class: "11", avgScore: 92.8, progress: 1.8, subjects: {matematika: 94, fizika: 90, kimyo: 93, ona_tili: 94, tarix: 93}},
+            {id: 4, name: "Otabekova Malika", class: "9", avgScore: 91.5, progress: 3.2, subjects: {matematika: 92, fizika: 90, kimyo: 93, ona_tili: 91, tarix: 92}},
+            {id: 5, name: "Saidov Bahrom", class: "10", avgScore: 89.6, progress: 5.5, subjects: {matematika: 90, fizika: 88, kimyo: 91, ona_tili: 89, tarix: 90}},
+            {id: 6, name: "Xolmirzayeva Zulfiya", class: "11", avgScore: 88.3, progress: -0.5, subjects: {matematika: 89, fizika: 86, kimyo: 90, ona_tili: 88, tarix: 88}},
+            {id: 7, name: "Yuldashev Farhod", class: "10", avgScore: 86.9, progress: 2.3, subjects: {matematika: 87, fizika: 85, kimyo: 88, ona_tili: 87, tarix: 87}},
+            {id: 8, name: "Qodirova Sevara", class: "9", avgScore: 85.4, progress: 4.7, subjects: {matematika: 86, fizika: 83, kimyo: 87, ona_tili: 85, tarix: 86}},
+            {id: 9, name: "Temirov Javohir", class: "11", avgScore: 83.7, progress: 1.2, subjects: {matematika: 84, fizika: 82, kimyo: 85, ona_tili: 83, tarix: 85}},
+            {id: 10, name: "Rahimova Gulnora", class: "10", avgScore: 82.1, progress: 3.9, subjects: {matematika: 83, fizika: 80, kimyo: 84, ona_tili: 82, tarix: 81}},
+        ];
+
+        const studentsTableBody = document.getElementById('studentsTableBody');
+        const topStudentsList = document.getElementById('topStudentsList');
+        const subjectRanking = document.getElementById('subjectRanking');
+        const totalStudentsEl = document.getElementById('totalStudents');
+        const avgScoreEl = document.getElementById('avgScore');
+        const topScoreEl = document.getElementById('topScore');
+        const addStudentBtn = document.getElementById('addStudentBtn');
+        const addStudentModal = document.getElementById('addStudentModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const addStudentForm = document.getElementById('addStudentForm');
+        const classFilter = document.getElementById('classFilter');
+        const subjectFilter = document.getElementById('subjectFilter');
+
+        function updateStats() {
+            totalStudentsEl.textContent = students.length;
+            
+            let totalScore = 0;
+            let maxScore = 0;
+            
+            students.forEach(student => {
+                totalScore += student.avgScore;
+                if (student.avgScore > maxScore) maxScore = student.avgScore;
+            });
+            
+            avgScoreEl.textContent = (totalScore / students.length).toFixed(1);
+            topScoreEl.textContent = maxScore.toFixed(1);
+        }
+
+        function calculateRankings() {
+            students.sort((a, b) => b.avgScore - a.avgScore);
+            
+            students.forEach((student, index) => {
+                student.rank = index + 1;
+            });
+        }
+
+        function renderStudentsTable(filterClass = 'all', filterSubject = 'all') {
+            studentsTableBody.innerHTML = '';
+            
+            let filteredStudents = students;
+            
+            if (filterClass !== 'all') {
+                filteredStudents = filteredStudents.filter(student => student.class === filterClass);
+            }
+            
+            filteredStudents.forEach(student => {
+                const row = document.createElement('tr');
+                
+                let rankClass = '';
+                if (student.rank === 1) rankClass = 'rank-1';
+                else if (student.rank === 2) rankClass = 'rank-2';
+                else if (student.rank === 3) rankClass = 'rank-3';
+                
+                let progressSign = student.progress >= 0 ? '+' : '';
+                let progressClass = student.progress >= 0 ? 'score-up' : 'score-down';
+                
+                let status = '';
+                let statusClass = '';
+                if (student.avgScore >= 90) {
+                    status = 'Alo';
+                    statusClass = 'badge-success';
+                } else if (student.avgScore >= 75) {
+                    status = 'Yaxshi';
+                    statusClass = 'badge-warning';
+                } else {
+                    status = 'Qoniqarli';
+                    statusClass = 'badge-danger';
+                }
+                
+                const nameParts = student.name.split(' ');
+                const initials = nameParts[0].charAt(0) + (nameParts[1] ? nameParts[1].charAt(0) : nameParts[0].charAt(1));
+                
+                row.innerHTML = `
+                    <td class="rank ${rankClass}">${student.rank}</td>
+                    <td>
+                        <div class="student-info">
+                            <div class="avatar">${initials}</div>
+                            <div>
+                                <div><strong>${student.name}</strong></div>
+                                <small style="color: var(--gray);">ID: ${String(student.id).padStart(3, '0')}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td><strong>${student.class}-sinf</strong></td>
+                    <td>
+                        <div class="progress-container">
+                            <div><strong>${student.avgScore.toFixed(1)}</strong></div>
+                            <div class="progress-bar">
+                                <div class="progress ${student.avgScore >= 90 ? 'progress-high' : student.avgScore >= 75 ? 'progress-medium' : 'progress-low'}" 
+                                     style="width: ${student.avgScore}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="score-change ${progressClass}">
+                            <i class="fas ${student.progress >= 0 ? 'fa-arrow-up' : 'fa-arrow-down'}"></i>
+                            ${progressSign}${Math.abs(student.progress).toFixed(1)}%
+                        </div>
+                    </td>
+                    <td><span class="badge ${statusClass}">${status}</span></td>
+                `;
+                
+                studentsTableBody.appendChild(row);
+            });
+        }
+
+        function renderTopStudents() {
+            topStudentsList.innerHTML = '';
+            
+            const top3 = students.slice(0, 3);
+            
+            top3.forEach((student, index) => {
+                const nameParts = student.name.split(' ');
+                const initials = nameParts[0].charAt(0) + (nameParts[1] ? nameParts[1].charAt(0) : nameParts[0].charAt(1));
+                
+                const medalColors = ['#FFD700', '#C0C0C0', '#CD7F32'];
+                const medalIcons = ['fa-medal', 'fa-award', 'fa-trophy'];
+                
+                const topStudentDiv = document.createElement('div');
+                topStudentDiv.className = 'top-student';
+                
+                topStudentDiv.innerHTML = `
+                    <div class="top-student-avatar" style="background: linear-gradient(135deg, ${medalColors[index]}, ${index === 0 ? '#FFC400' : index === 1 ? '#A0A0A0' : '#B56C2C'})">
+                        ${initials}
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <div><strong>${student.name}</strong></div>
+                        <div style="color: var(--gray); font-size: 0.9rem;">${student.class}-sinf</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas ${medalIcons[index]}" style="color: ${medalColors[index]}; font-size: 1.2rem;"></i>
+                            <div style="font-size: 1.5rem; font-weight: bold;">${student.avgScore.toFixed(1)}</div>
+                        </div>
+                        <div style="color: var(--gray); font-size: 0.85rem;">${student.rank}-o'rin</div>
+                    </div>
+                `;
+                
+                topStudentsList.appendChild(topStudentDiv);
+            });
+        }
+
+        function calculateSubjectRankings() {
+            const subjects = {
+                matematika: 0,
+                fizika: 0,
+                kimyo: 0,
+                ona_tili: 0,
+                tarix: 0
+            };
+            
+            students.forEach(student => {
+                for (const subject in student.subjects) {
+                    subjects[subject] += student.subjects[subject];
+                }
+            });
+            
+            for (const subject in subjects) {
+                subjects[subject] = (subjects[subject] / students.length).toFixed(1);
+            }
+            
+            const sortedSubjects = Object.entries(subjects).sort((a, b) => b[1] - a[1]);
+            
+            renderSubjectRankings(sortedSubjects);
+        }
+
+        function renderSubjectRankings(sortedSubjects) {
+            subjectRanking.innerHTML = '';
+            
+            const subjectNames = {
+                matematika: "Matematika",
+                fizika: "Fizika",
+                kimyo: "Kimyo",
+                ona_tili: "Ona tili",
+                tarix: "Tarix"
+            };
+            
+            const subjectIcons = {
+                matematika: "fa-calculator",
+                fizika: "fa-atom",
+                kimyo: "fa-flask",
+                ona_tili: "fa-book-open",
+                tarix: "fa-landmark"
+            };
+            
+            sortedSubjects.forEach(([subjectKey, avgScore], index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 30px; height: 30px; background: linear-gradient(135deg, var(--primary-light), var(--primary)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fas ${subjectIcons[subjectKey]}"></i>
+                        </div>
+                        <span class="subject-name">${subjectNames[subjectKey]}</span>
+                    </div>
+                    <div>
+                        <span class="subject-rating">${avgScore}</span>
+                    </div>
+                `;
+                subjectRanking.appendChild(li);
+            });
+        }
+
+        addStudentBtn.addEventListener('click', () => {
+            addStudentModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            addStudentModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === addStudentModal) {
+                addStudentModal.style.display = 'none';
+            }
+        });
+
+        addStudentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('studentName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const avgScore = parseFloat(document.getElementById('studentAvgScore').value);
+            const progress = parseFloat(document.getElementById('studentProgress').value);
+            
+            const newId = students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1;
+            
+            const newStudent = {
+                id: newId,
+                name: name,
+                class: studentClass,
+                avgScore: avgScore,
+                progress: progress,
+                subjects: {
+                    matematika: Math.min(100, Math.max(60, avgScore + (Math.random() * 10 - 5))),
+                    fizika: Math.min(100, Math.max(60, avgScore + (Math.random() * 10 - 5))),
+                    kimyo: Math.min(100, Math.max(60, avgScore + (Math.random() * 10 - 5))),
+                    ona_tili: Math.min(100, Math.max(60, avgScore + (Math.random() * 10 - 5))),
+                    tarix: Math.min(100, Math.max(60, avgScore + (Math.random() * 10 - 5)))
+                }
+            };
+            
+            students.push(newStudent);
+            
+            calculateRankings();
+            renderStudentsTable(classFilter.value, subjectFilter.value);
+            renderTopStudents();
+            calculateSubjectRankings();
+            updateStats();
+            
+            addStudentForm.reset();
+            addStudentModal.style.display = 'none';
+            
+            alert(`"${name}" muvaffaqiyatli ro'yxatga qo'shildi!`);
+        });
+
+        classFilter.addEventListener('change', () => {
+            renderStudentsTable(classFilter.value, subjectFilter.value);
+        });
+
+        subjectFilter.addEventListener('change', () => {
+            renderStudentsTable(classFilter.value, subjectFilter.value);
+        });
+
+        
+        function init() {
+            calculateRankings();
+            renderStudentsTable();
+            renderTopStudents();
+            calculateSubjectRankings();
+            updateStats();
+        }
+    </script>
+</body>
+</html>
